@@ -1,0 +1,32 @@
+$clr-black: #303030;
+$clr-white: #fff;
+$clr-gray: lightgray;
+$clr-red: red;
+$font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+$spacing: 0.1rem;
+$radius: 0.25rem;
+$shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+@mixin grid-center {
+    display: grid;
+    place-items: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@mixin circle ($diameter) {
+    width: $diameter;
+    height: $diameter;
+    border-radius: 50%;
+}
+
+@keyframes spinner {
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -1,3 +1,5 @@
+@import 'config';
+
 * {
     margin: 0;
     padding: 0;
@@ -5,8 +7,148 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-        'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    height: 100vh;
+    @include grid-center;
+    font-family: $font;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    text-transform: capitalize;
+    letter-spacing: $spacing;
+}
+
+h1 {
+    font-size: 2rem;
+    line-height: 1.25;
+}
+
+h2 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+h4 {
+    font-size: 1rem;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+.container {
+    max-width: 30rem;
+    width: 90vw;
+    border-radius: $radius;
+    box-shadow: $shadow;
+}
+
+.section {
+    padding: 1rem;
+}
+
+.form {
+    margin-top: 1rem;
+
+    &-header {
+        text-align: center;
+    }
+
+    &-field {
+        margin: 1rem 0;
+
+        label {
+            display: block;
+            margin-bottom: 0.25rem;
+            text-transform: capitalize;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.375rem;
+            border: 1px solid $clr-gray;
+            border-radius: $radius;
+            outline: none;
+            font-family: $font;
+            font-size: 1rem;
+
+            &:focus {
+                border-color: $clr-black;
+                box-shadow: 0 0 0 1px $clr-black;
+            }
+        }
+    }
+
+    &-message {
+        margin-top: 1rem;
+        text-align: center;
+    }
+
+    &-error {
+        margin-top: 1rem;
+        color: $clr-red;
+        text-align: center;
+    }
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.375rem 0.5rem;
+    border: none;
+    border-radius: $radius;
+    font-family: $font;
+    font-size: 1rem;
+    line-height: 1.25;
+    text-transform: capitalize;
+    letter-spacing: $spacing;
+}
+
+.btn-block {
+    @extend .btn;
+    display: block;
+    width: 100%;
+}
+
+.btn-spinner {
+    @include circle(1.25rem);
+    display: block;
+    margin: 0 auto;
+    border: 0.25rem solid $clr-black;
+    border-right-color: transparent;
+    animation: spinner 0.5s linear 0s infinite;
+}
+
+.text-link {
+    display: inline-block;
+    border: none;
+    background-color: transparent;
+    font-family: $font;
+    font-size: 1rem;
+    text-transform: capitalize;
+}
+
+.logo {
+    text-align: center;
 }
