@@ -1,21 +1,25 @@
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import {
     createUserWithEmailAndPassword,
     updateProfile,
     signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { auth } from '../services/firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../services/firebase';
+import FormField from './FormField';
 
 const AuthForm = () => {
-    const [isUserSignUp, setIsUserSignUp] = useState(false);
+    const [isUserSignUp, setIsUserSignUp] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [values, setValues] = useState({
-        username: '',
+        displayName: '',
         email: '',
         password: '',
         confirmPassword: '',
     });
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
@@ -23,8 +27,8 @@ const AuthForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { username, email, password, confirmPassword } = values;
-        if ((!isUserSignUp && (!username || !confirmPassword)) || !email || !password) {
+        const { displayName, email, password, confirmPassword } = values;
+        if ((!isUserSignUp && (!displayName || !confirmPassword)) || !email || !password) {
             setError({ message: 'Please fill in all fields!' });
             return;
         }
@@ -36,10 +40,15 @@ const AuthForm = () => {
         setIsLoading(true);
         try {
             if (!isUserSignUp) {
-                await createUserWithEmailAndPassword(auth, email, password);
+                const { user } = await createUserWithEmailAndPassword(auth, email, password);
                 await updateProfile(auth.currentUser, {
-                    displayName: username,
+                    displayName,
                 });
+                setDoc(doc(db, 'users', user.uid), {
+                    displayName,
+                    email,
+                });
+                navigate('/');
             } else {
                 await signInWithEmailAndPassword(auth, email, password);
             }
@@ -53,48 +62,29 @@ const AuthForm = () => {
         <form className='form' onSubmit={handleSubmit}>
             <h3 className='form-header'>{!isUserSignUp ? 'sign up' : 'sign in'}</h3>
             {!isUserSignUp && (
-                <div className='form-field'>
-                    <label htmlFor='username'>username:</label>
-                    <input
-                        type='text'
-                        id='username'
-                        name='username'
-                        value={values.username}
-                        onChange={handleChange}
-                    />
-                </div>
+                <FormField
+                    type='text'
+                    name='displayName'
+                    value={values.displayName}
+                    onChange={handleChange}
+                    label='username'
+                />
             )}
-            <div className='form-field'>
-                <label htmlFor='email'>email:</label>
-                <input
-                    type='email'
-                    id='email'
-                    name='email'
-                    value={values.email}
-                    onChange={handleChange}
-                />
-            </div>
-            <div className='form-field'>
-                <label htmlFor='password'>password:</label>
-                <input
-                    type='password'
-                    id='password'
-                    name='password'
-                    value={values.password}
-                    onChange={handleChange}
-                />
-            </div>
+            <FormField type='email' name='email' value={values.email} onChange={handleChange} />
+            <FormField
+                type='password'
+                name='password'
+                value={values.password}
+                onChange={handleChange}
+            />
             {!isUserSignUp && (
-                <div className='form-field'>
-                    <label htmlFor='confirm-password'>confirm password:</label>
-                    <input
-                        type='password'
-                        id='confirm-password'
-                        name='confirmPassword'
-                        value={values.confirmPassword}
-                        onChange={handleChange}
-                    />
-                </div>
+                <FormField
+                    type='password'
+                    name='confirmPassword'
+                    value={values.confirmPassword}
+                    onChange={handleChange}
+                    label='confirm password'
+                />
             )}
             <button type='submit' className='btn-block' disabled={isLoading}>
                 {isLoading ? <span className='btn-spinner'></span> : 'submit'}
@@ -108,6 +98,11 @@ const AuthForm = () => {
                 >
                     {!isUserSignUp ? 'sign in' : 'sign up'}
                 </button>
+            </p>
+            <p className='form-message'>
+                <Link to='/reset' className='text-link'>
+                    forgot password?
+                </Link>
             </p>
             {error && <p className='form-error'>{error.message}</p>}
         </form>

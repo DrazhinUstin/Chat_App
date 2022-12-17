@@ -8,7 +8,7 @@ const Auth = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user) navigate('/');
+        if (user?.displayName) navigate('/');
     }, [user, navigate]);
 
     return (

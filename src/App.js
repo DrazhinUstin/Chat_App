@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ProtectedRoute, Home, Auth } from './pages';
+import { ProtectedRoute, Home, Auth, Reset } from './pages';
 
 const App = () => {
     return (
@@ -14,6 +14,7 @@ const App = () => {
                     }
                 />
                 <Route path='auth' element={<Auth />} />
+                <Route path='reset' element={<Reset />} />
             </Routes>
         </Router>
     );
