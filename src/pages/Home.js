@@ -1,16 +1,10 @@
-import { signOut } from 'firebase/auth';
-import { auth } from '../services/firebase';
-import { useAuthContext } from '../context/AuthContext';
+import { Sidebar, Chat } from '../components';
 
 const Home = () => {
-    const { user } = useAuthContext();
-
     return (
-        <main className='container'>
-            <h2>hello, {user.displayName}</h2>
-            <button className='btn' onClick={() => signOut(auth)}>
-                sign out
-            </button>
+        <main className='container-lg'>
+            <Sidebar />
+            <Chat />
         </main>
     );
 };
