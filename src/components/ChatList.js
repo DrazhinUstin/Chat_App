@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { useAuthContext } from '../context/AuthContext';
+import { useChatContext } from '../context/ChatContext';
 
 const ChatList = () => {
     const [chats, setChats] = useState([]);
     const { user } = useAuthContext();
+    const { setChat } = useChatContext();
 
     useEffect(() => {
         const q = query(collection(db, `users/${user.uid}/chats`), orderBy('timestamp'));
@@ -22,7 +24,7 @@ const ChatList = () => {
         <ul className='chat-list'>
             {chats.map(({ id, uid, displayName }) => {
                 return (
-                    <li key={id}>
+                    <li key={id} onClick={() => setChat({ id, uid, displayName })}>
                         <span>{displayName[0].toUpperCase()}</span>
                         <p>{displayName}</p>
                     </li>

@@ -20,7 +20,7 @@ const UserSearch = () => {
             if (!docs.length) {
                 setError({ message: 'User not found!' });
             }
-            setUsers(docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+            setUsers(docs.map((doc) => ({ uid: doc.id, ...doc.data() })));
         } catch (error) {
             setError(error);
         }
