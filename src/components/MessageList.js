@@ -4,11 +4,12 @@ import { db } from '../services/firebase';
 import { useAuthContext } from '../context/AuthContext';
 import { useChatContext } from '../context/ChatContext';
 import { calcMsgTime } from '../utils/helpers';
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 
 const MessageList = () => {
     const [messages, setMessages] = useState([]);
     const { user } = useAuthContext();
-    const { chat } = useChatContext();
+    const { chat, startEditing, deleteMsg } = useChatContext();
     const elemRef = useRef(null);
 
     useEffect(() => {
@@ -35,6 +36,16 @@ const MessageList = () => {
                         <h4>{displayName}</h4>
                         <p>{message}</p>
                         <p>{calcMsgTime(timestamp)}</p>
+                        {uid === user.uid && (
+                            <footer>
+                                <button onClick={() => startEditing(id, message)}>
+                                    <FaEdit />
+                                </button>
+                                <button onClick={() => deleteMsg(id)}>
+                                    <FaTrashAlt />
+                                </button>
+                            </footer>
+                        )}
                     </li>
                 );
             })}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { FaPaperPlane } from 'react-icons/fa';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { FaPaperPlane, FaEdit } from 'react-icons/fa';
+import { collection, addDoc, Timestamp, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { useAuthContext } from '../context/AuthContext';
 import { useChatContext } from '../context/ChatContext';
@@ -13,6 +13,11 @@ const MessageForm = () => {
     } = useAuthContext();
     const {
         chat: { id },
+        message,
+        setMessage,
+        isEditing,
+        editID,
+        finishEditing,
     } = useChatContext();
 
     const handleSubmit = async (e) => {
@@ -20,13 +25,20 @@ const MessageForm = () => {
         setError(null);
         setIsLoading(true);
         try {
-            await addDoc(collection(db, `chats/${id}/messages`), {
-                uid,
-                displayName,
-                message: e.target.elements[0].value,
-                timestamp: Timestamp.now(),
-            });
-            e.target.elements[0].value = '';
+            if (isEditing) {
+                await updateDoc(doc(db, `chats/${id}/messages/${editID}`), {
+                    message,
+                });
+                finishEditing();
+            } else {
+                await addDoc(collection(db, `chats/${id}/messages`), {
+                    uid,
+                    displayName,
+                    message,
+                    timestamp: Timestamp.now(),
+                });
+                setMessage('');
+            }
         } catch (error) {
             setError(error);
         }
@@ -36,9 +48,21 @@ const MessageForm = () => {
     return (
         <footer>
             <form className='form-flex' onSubmit={handleSubmit}>
-                <input type='text' placeholder='Type a message...' required />
+                <input
+                    type='text'
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder='Type a message...'
+                    required
+                />
                 <button type='submit' className='btn' disabled={isLoading}>
-                    {isLoading ? <span className='btn-spinner'></span> : <FaPaperPlane />}
+                    {isLoading ? (
+                        <span className='btn-spinner'></span>
+                    ) : isEditing ? (
+                        <FaEdit />
+                    ) : (
+                        <FaPaperPlane />
+                    )}
                 </button>
             </form>
             {error && <p className='form-error'>{error.message}</p>}

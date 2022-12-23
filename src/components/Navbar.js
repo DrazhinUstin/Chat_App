@@ -5,7 +5,7 @@ import { useChatContext } from '../context/ChatContext';
 
 const Navbar = () => {
     const { user } = useAuthContext();
-    const { setChat } = useChatContext();
+    const { selectChat } = useChatContext();
 
     return (
         <nav className='navbar'>
@@ -14,7 +14,7 @@ const Navbar = () => {
                 className='btn'
                 onClick={() => {
                     signOut(auth);
-                    setChat(null);
+                    selectChat(null);
                 }}
             >
                 sign out

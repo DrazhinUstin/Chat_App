@@ -7,7 +7,7 @@ import { useChatContext } from '../context/ChatContext';
 const ChatList = () => {
     const [chats, setChats] = useState([]);
     const { user } = useAuthContext();
-    const { setChat } = useChatContext();
+    const { selectChat } = useChatContext();
 
     useEffect(() => {
         const q = query(collection(db, `users/${user.uid}/chats`), orderBy('timestamp'));
@@ -24,7 +24,7 @@ const ChatList = () => {
         <ul className='chat-list'>
             {chats.map(({ id, uid, displayName }) => {
                 return (
-                    <li key={id} onClick={() => setChat({ id, uid, displayName })}>
+                    <li key={id} onClick={() => selectChat({ id, uid, displayName })}>
                         <span>{displayName[0].toUpperCase()}</span>
                         <p>{displayName}</p>
                     </li>

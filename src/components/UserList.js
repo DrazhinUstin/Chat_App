@@ -5,7 +5,7 @@ import { useChatContext } from '../context/ChatContext';
 
 const UserList = ({ users, setUsers }) => {
     const { user } = useAuthContext();
-    const { setChat } = useChatContext();
+    const { selectChat } = useChatContext();
 
     const handleClick = async ({ uid, displayName }) => {
         const chatID = user.uid > uid ? user.uid + uid : uid + user.uid;
@@ -24,7 +24,7 @@ const UserList = ({ users, setUsers }) => {
                 });
                 await setDoc(doc(db, `chats/${chatID}`), {});
             }
-            setChat({ id: chatID, uid, displayName });
+            selectChat({ id: chatID, uid, displayName });
             setUsers([]);
         } catch (error) {}
     };

@@ -1,5 +1,5 @@
 import { useChatContext } from '../context/ChatContext';
-import { MessageList, MessageForm } from './';
+import { ChatHeader, MessageList, MessageForm } from './';
 
 const Chat = () => {
     const { chat } = useChatContext();
@@ -14,9 +14,7 @@ const Chat = () => {
 
     return (
         <section className='chat'>
-            <header className='chat-header'>
-                <h4>{chat.displayName}</h4>
-            </header>
+            <ChatHeader />
             <MessageList />
             <MessageForm />
         </section>
