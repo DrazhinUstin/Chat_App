@@ -11,3 +11,8 @@ export const calcMsgTime = (timestamp) => {
     }
     return `${d < 10 ? '0' + d : d}/${m < 10 ? '0' + m : m}/${y}`;
 };
+
+export const cutString = (string, maxLength = 20) => {
+    if (string.length <= maxLength) return string;
+    return `${string.slice(0, maxLength - 3)}...`;
+};

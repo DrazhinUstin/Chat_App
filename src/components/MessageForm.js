@@ -15,9 +15,9 @@ const MessageForm = () => {
         chat: { id },
         message,
         setMessage,
-        isEditing,
-        editID,
+        editMode,
         finishEditing,
+        updateLastMsg,
     } = useChatContext();
 
     const handleSubmit = async (e) => {
@@ -25,10 +25,11 @@ const MessageForm = () => {
         setError(null);
         setIsLoading(true);
         try {
-            if (isEditing) {
-                await updateDoc(doc(db, `chats/${id}/messages/${editID}`), {
+            if (editMode) {
+                await updateDoc(doc(db, `chats/${id}/messages/${editMode.msgID}`), {
                     message,
                 });
+                editMode.isLastMsg && updateLastMsg();
                 finishEditing();
             } else {
                 await addDoc(collection(db, `chats/${id}/messages`), {
@@ -37,6 +38,7 @@ const MessageForm = () => {
                     message,
                     timestamp: Timestamp.now(),
                 });
+                updateLastMsg(message);
                 setMessage('');
             }
         } catch (error) {
@@ -58,7 +60,7 @@ const MessageForm = () => {
                 <button type='submit' className='btn' disabled={isLoading}>
                     {isLoading ? (
                         <span className='btn-spinner'></span>
-                    ) : isEditing ? (
+                    ) : editMode ? (
                         <FaEdit />
                     ) : (
                         <FaPaperPlane />

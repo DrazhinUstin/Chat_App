@@ -30,7 +30,7 @@ const MessageList = () => {
 
     return (
         <ul className='message-list' ref={elemRef}>
-            {messages.map(({ id, uid, displayName, message, timestamp }) => {
+            {messages.map(({ id, uid, displayName, message, timestamp }, i) => {
                 return (
                     <li key={id} className={uid === user.uid ? 'user' : null}>
                         <h4>{displayName}</h4>
@@ -38,10 +38,14 @@ const MessageList = () => {
                         <p>{calcMsgTime(timestamp)}</p>
                         {uid === user.uid && (
                             <footer>
-                                <button onClick={() => startEditing(id, message)}>
+                                <button
+                                    onClick={() =>
+                                        startEditing(id, message, i === messages.length - 1)
+                                    }
+                                >
                                     <FaEdit />
                                 </button>
-                                <button onClick={() => deleteMsg(id)}>
+                                <button onClick={() => deleteMsg(id, i === messages.length - 1)}>
                                     <FaTrashAlt />
                                 </button>
                             </footer>

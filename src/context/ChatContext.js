@@ -1,5 +1,15 @@
 import { createContext, useContext, useState } from 'react';
-import { doc, collection, getDocs, deleteDoc } from 'firebase/firestore';
+import {
+    doc,
+    collection,
+    getDocs,
+    deleteDoc,
+    updateDoc,
+    query,
+    orderBy,
+    limit,
+    serverTimestamp,
+} from 'firebase/firestore';
 import { db, auth } from '../services/firebase';
 
 const ChatContext = createContext();
@@ -8,30 +18,28 @@ const useChatContext = () => useContext(ChatContext);
 const ChatProvider = ({ children }) => {
     const [chat, setChat] = useState(null);
     const [message, setMessage] = useState('');
-    const [isEditing, setIsEditing] = useState(false);
-    const [editID, setEditID] = useState(null);
+    const [editMode, setEditMode] = useState(null);
 
     const selectChat = (chat) => {
         setChat(chat);
         finishEditing();
     };
 
-    const startEditing = (msgID, message) => {
-        setIsEditing(true);
-        setEditID(msgID);
+    const startEditing = (msgID, message, isLastMsg = false) => {
+        setEditMode({ msgID, isLastMsg });
         setMessage(message);
     };
 
     const finishEditing = () => {
-        setIsEditing(false);
-        setEditID(null);
+        setEditMode(null);
         setMessage('');
     };
 
-    const deleteMsg = async (msgID) => {
+    const deleteMsg = async (msgID, isLastMsg) => {
         try {
             await deleteDoc(doc(db, `chats/${chat.id}/messages/${msgID}`));
-            if (msgID === editID) finishEditing();
+            if (msgID === editMode?.msgID) finishEditing();
+            if (isLastMsg) updateLastMsg();
         } catch (error) {}
     };
 
@@ -49,6 +57,26 @@ const ChatProvider = ({ children }) => {
         } catch (error) {}
     };
 
+    const updateLastMsg = async (lastMessage) => {
+        if (!lastMessage) {
+            const q = query(
+                collection(db, `chats/${chat.id}/messages`),
+                orderBy('timestamp', 'desc'),
+                limit(1)
+            );
+            const { docs } = await getDocs(q);
+            lastMessage = docs[0]?.data().message || '';
+        }
+        await updateDoc(doc(db, `users/${auth.currentUser.uid}/chats/${chat.id}`), {
+            lastMessage,
+            timestamp: serverTimestamp(),
+        });
+        await updateDoc(doc(db, `users/${chat.uid}/chats/${chat.id}`), {
+            lastMessage,
+            timestamp: serverTimestamp(),
+        });
+    };
+
     return (
         <ChatContext.Provider
             value={{
@@ -56,12 +84,12 @@ const ChatProvider = ({ children }) => {
                 selectChat,
                 message,
                 setMessage,
-                isEditing,
-                editID,
+                editMode,
                 startEditing,
                 finishEditing,
                 deleteMsg,
                 deleteChat,
+                updateLastMsg,
             }}
         >
             {children}
