@@ -10,7 +10,8 @@ import {
     limit,
     serverTimestamp,
 } from 'firebase/firestore';
-import { db, auth } from '../services/firebase';
+import { ref, deleteObject } from 'firebase/storage';
+import { db, auth, storage } from '../services/firebase';
 
 const ChatContext = createContext();
 const useChatContext = () => useContext(ChatContext);
@@ -35,11 +36,15 @@ const ChatProvider = ({ children }) => {
         setMessage('');
     };
 
-    const deleteMsg = async (msgID, isLastMsg) => {
+    const deleteMsg = async (msgID, isLastMsg, fileName) => {
         try {
             await deleteDoc(doc(db, `chats/${chat.id}/messages/${msgID}`));
             if (msgID === editMode?.msgID) finishEditing();
-            if (isLastMsg) updateLastMsg();
+            if (isLastMsg) await updateLastMsg();
+            if (fileName) {
+                const storageRef = ref(storage, `${chat.id}/${fileName}`);
+                await deleteObject(storageRef);
+            }
         } catch (error) {}
     };
 

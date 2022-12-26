@@ -16,3 +16,15 @@ export const cutString = (string, maxLength = 20) => {
     if (string.length <= maxLength) return string;
     return `${string.slice(0, maxLength - 3)}...`;
 };
+
+export const validateFile = (file, maxSize = 1e6) => {
+    if (!file) return null;
+    const fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+    if (!fileTypes.find((type) => type === file.type)) {
+        throw new Error(`${file.type} type is invalid. Valid file types: ${fileTypes.join(', ')}`);
+    }
+    if (file.size > maxSize) {
+        throw new Error(`File is too big. Max valid file size is ${maxSize / 1e6}MB`);
+    }
+    return file;
+};
