@@ -67,6 +67,7 @@ button {
 .container {
     max-width: 30rem;
     width: 90vw;
+    overflow: hidden;
     border-radius: $radius;
     box-shadow: $shadow;
 }
@@ -74,8 +75,6 @@ button {
 .container-lg {
     @extend .container;
     max-width: 50rem;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
 }
 
 .section {
@@ -86,8 +85,24 @@ button {
     @include grid-center;
 }
 
+.header {
+    @include flex-between;
+    padding: 1rem;
+    background-color: $clr-black;
+    color: $clr-white;
+
+    .icon {
+        color: $clr-white;
+        transition: $trans-ease;
+
+        &.rotate {
+            transform: rotate(90deg);
+        }
+    }
+}
+
 .form {
-    margin-top: 1rem;
+    padding: 1rem;
 
     &-header {
         text-align: center;
@@ -136,6 +151,7 @@ button {
     @extend .form;
     display: flex;
     column-gap: 0.5rem;
+    padding: unset;
 }
 
 .btn {
@@ -166,6 +182,17 @@ button {
     animation: spinner 0.5s linear 0s infinite;
 }
 
+.icon {
+    display: inline-block;
+    border: none;
+    background-color: transparent;
+    font-size: 1rem;
+
+    &.github {
+        font-size: 1.25rem;
+    }
+}
+
 .text-link {
     display: inline-block;
     border: none;
@@ -175,17 +202,44 @@ button {
     text-transform: capitalize;
 }
 
-.logo {
-    text-align: center;
+.column-layout {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+
+    @media screen and (max-width: 800px) {
+        grid-template-columns: unset;
+    }
 }
 
 .sidebar {
+    width: 16rem;
+    margin-left: -16rem;
     padding: 1rem;
+    background-color: $clr-white;
     box-shadow: $shadow;
-}
+    transition: $trans-ease;
+    z-index: 1;
 
-.navbar {
-    @include flex-between;
+    &-header {
+        @include flex-between;
+        margin-bottom: 1rem;
+    }
+
+    &.open {
+        transform: translateX(0);
+        margin-left: 0;
+    }
+
+    @media screen and (max-width: 800px) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-100%);
+        margin-left: 0;
+    }
 }
 
 .user-list,
@@ -226,10 +280,6 @@ button {
         button {
             min-width: 7.5rem;
         }
-    }
-
-    form {
-        margin-top: unset;
     }
 }
 

@@ -1,9 +1,11 @@
-import { Navbar, UserSearch, ChatList } from './';
+import { useAuthContext } from '../context/AuthContext';
+import { SidebarHeader, UserSearch, ChatList } from './';
 
 const Sidebar = () => {
+    const { isSidebarOpen } = useAuthContext();
     return (
-        <aside className='sidebar'>
-            <Navbar />
+        <aside className={`sidebar ${isSidebarOpen && 'open'}`}>
+            <SidebarHeader />
             <UserSearch />
             <ChatList />
         </aside>

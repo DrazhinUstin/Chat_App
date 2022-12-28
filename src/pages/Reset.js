@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../services/firebase';
-import FormField from '../components/FormField';
+import { Header, FormField } from '../components';
 
 const Reset = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -24,8 +24,8 @@ const Reset = () => {
     };
 
     return (
-        <main className='container section'>
-            <h2 className='logo'>chat app</h2>
+        <main className='container'>
+            <Header />
             <form className='form' onSubmit={handleSubmit}>
                 <h3 className='form-header'>password reset</h3>
                 <p className='form-message'>

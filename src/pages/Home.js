@@ -1,10 +1,13 @@
-import { Sidebar, Chat } from '../components';
+import { Header, Sidebar, Chat } from '../components';
 
 const Home = () => {
     return (
         <main className='container-lg'>
-            <Sidebar />
-            <Chat />
+            <Header renderBtn />
+            <div className='column-layout'>
+                <Sidebar />
+                <Chat />
+            </div>
         </main>
     );
 };

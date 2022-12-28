@@ -7,7 +7,7 @@ import { cutString } from '../utils/helpers';
 
 const ChatList = () => {
     const [chats, setChats] = useState([]);
-    const { user } = useAuthContext();
+    const { user, setIsSidebarOpen } = useAuthContext();
     const { selectChat } = useChatContext();
 
     useEffect(() => {
@@ -21,11 +21,18 @@ const ChatList = () => {
         return () => unsubscribe();
     }, [user]);
 
+    const handleClick = (chat) => {
+        selectChat(chat);
+        if (document.documentElement.clientWidth <= 800) {
+            setIsSidebarOpen(false);
+        }
+    };
+
     return (
         <ul className='chat-list'>
             {chats.map(({ id, uid, displayName, lastMessage }) => {
                 return (
-                    <li key={id} onClick={() => selectChat({ id, uid, displayName })}>
+                    <li key={id} onClick={() => handleClick({ id, uid, displayName })}>
                         <span>{displayName[0].toUpperCase()}</span>
                         <div>
                             <p>{displayName}</p>

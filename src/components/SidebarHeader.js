@@ -3,12 +3,12 @@ import { auth } from '../services/firebase';
 import { useAuthContext } from '../context/AuthContext';
 import { useChatContext } from '../context/ChatContext';
 
-const Navbar = () => {
+const SidebarHeader = () => {
     const { user } = useAuthContext();
     const { selectChat } = useChatContext();
 
     return (
-        <nav className='navbar'>
+        <header className='sidebar-header'>
             <h4>{user.displayName}</h4>
             <button
                 className='btn'
@@ -19,8 +19,8 @@ const Navbar = () => {
             >
                 sign out
             </button>
-        </nav>
+        </header>
     );
 };
 
-export default Navbar;
+export default SidebarHeader;
