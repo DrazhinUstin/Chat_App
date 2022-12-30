@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../services/firebase';
+import { db, auth } from '../services/firebase';
 import { FaSearch } from 'react-icons/fa';
 import UserList from './UserList';
 
@@ -15,7 +15,11 @@ const UserSearch = () => {
         setIsLoading(true);
         try {
             const displayName = e.target.elements[0].value;
-            const q = query(collection(db, 'users'), where('displayName', '==', displayName));
+            const q = query(
+                collection(db, 'users'),
+                where('displayName', '==', displayName),
+                where('email', '!=', auth.currentUser.email)
+            );
             const { docs } = await getDocs(q);
             if (!docs.length) {
                 setError({ message: 'User not found!' });
@@ -30,7 +34,7 @@ const UserSearch = () => {
     return (
         <>
             <form className='form-flex' onSubmit={handleSubmit}>
-                <input type='text' placeholder='Search a user' required />
+                <input type='text' placeholder='Search a user...' required />
                 <button type='submit' className='btn' disabled={isLoading}>
                     {isLoading ? <span className='btn-spinner'></span> : <FaSearch />}
                 </button>

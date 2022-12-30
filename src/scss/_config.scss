@@ -1,12 +1,17 @@
+$clr-primary: #e7e9f5;
+$clr-primary-2: #d3d7ed;
+$clr-primary-3: #444c78;
 $clr-black: #303030;
 $clr-white: #fff;
-$clr-gray: lightgray;
-$clr-red: red;
+$clr-gray: #ededed;
+$clr-gray-2: #e1dfdf;
+$clr-red: #d14545;
+$clr-green: #70b510;
 $font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
     'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 $spacing: 0.1rem;
 $radius: 0.25rem;
-$shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+$shadow: 0 10px 15px rgb(92 101 147 / 10%);
 $trans-ease: all 0.4s ease;
 
 @mixin grid-center {

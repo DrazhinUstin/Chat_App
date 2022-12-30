@@ -9,7 +9,7 @@ const ChatHeader = () => {
         <header className='chat-header'>
             <h4>{chat.displayName}</h4>
             <button
-                className='btn'
+                className='btn red'
                 disabled={isLoading}
                 onClick={async () => {
                     setIsLoading(true);

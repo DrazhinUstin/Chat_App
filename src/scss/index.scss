@@ -9,6 +9,8 @@
 body {
     height: 100vh;
     @include grid-center;
+    background-color: $clr-primary-2;
+    color: $clr-black;
     font-family: $font;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -69,7 +71,9 @@ button {
     width: 90vw;
     overflow: hidden;
     border-radius: $radius;
+    background-color: $clr-white;
     box-shadow: $shadow;
+    overflow-wrap: anywhere;
 }
 
 .container-lg {
@@ -88,7 +92,7 @@ button {
 .header {
     @include flex-between;
     padding: 1rem;
-    background-color: $clr-black;
+    background-color: $clr-primary-3;
     color: $clr-white;
 
     .icon {
@@ -116,8 +120,6 @@ button {
             margin-bottom: 0.25rem;
             text-transform: capitalize;
         }
-
-
     }
 
     &-message {
@@ -134,15 +136,17 @@ button {
     input {
         width: 100%;
         padding: 0.375rem;
-        border: 1px solid $clr-gray;
+        border: 1px solid $clr-gray-2;
         border-radius: $radius;
         outline: none;
+        background-color: $clr-white;
+        color: $clr-black;
         font-family: $font;
         font-size: 1rem;
 
         &:focus {
-            border-color: $clr-black;
-            box-shadow: 0 0 0 1px $clr-black;
+            border-color: $clr-primary-3;
+            box-shadow: 0 0 0 1px $clr-primary-3;
         }
     }
 }
@@ -160,11 +164,26 @@ button {
     padding: 0.375rem 0.5rem;
     border: none;
     border-radius: $radius;
+    background-color: $clr-primary-3;
+    color: $clr-white;
     font-family: $font;
     font-size: 1rem;
     line-height: 1.25;
     text-transform: capitalize;
     letter-spacing: $spacing;
+    transition: $trans-ease;
+
+    &.green {
+        background-color: $clr-green;
+    }
+
+    &.red {
+        background-color: $clr-red;
+    }
+
+    &:hover {
+        filter: brightness(125%);
+    }
 }
 
 .btn-block {
@@ -177,7 +196,7 @@ button {
     @include circle(1.25rem);
     display: block;
     margin: 0 auto;
-    border: 0.25rem solid $clr-black;
+    border: 0.25rem solid $clr-white;
     border-right-color: transparent;
     animation: spinner 0.5s linear 0s infinite;
 }
@@ -197,13 +216,16 @@ button {
     display: inline-block;
     border: none;
     background-color: transparent;
+    color: $clr-primary-3;
     font-family: $font;
     font-size: 1rem;
+    font-weight: 500;
     text-transform: capitalize;
 }
 
 .column-layout {
     position: relative;
+    min-height: 20rem;
     display: grid;
     grid-template-columns: auto 1fr;
 
@@ -216,14 +238,17 @@ button {
     width: 16rem;
     margin-left: -16rem;
     padding: 1rem;
-    background-color: $clr-white;
-    box-shadow: $shadow;
+    background-color: $clr-primary;
     transition: $trans-ease;
     z-index: 1;
 
     &-header {
         @include flex-between;
         margin-bottom: 1rem;
+
+        h4 {
+            text-transform: unset;
+        }
     }
 
     &.open {
@@ -237,6 +262,7 @@ button {
         left: 0;
         width: 100%;
         height: 100%;
+        overflow-y: auto;
         transform: translateX(-100%);
         margin-left: 0;
     }
@@ -245,7 +271,7 @@ button {
 .user-list,
 .chat-list {
     display: grid;
-    row-gap: 1rem;
+    row-gap: 0.5rem;
     margin-top: 1rem;
 
     li {
@@ -258,14 +284,28 @@ button {
         span {
             @include grid-center;
             @include circle(2rem);
-            background-color: $clr-black;
+            background-color: $clr-primary-3;
             color: $clr-white;
         }
 
-        p~p {
-            color: $clr-red;
+        p:first-of-type {
+            color: $clr-primary-3;
+            font-weight: 500;
+        }
+
+        &.active {
+            padding-left: 0.25rem;
+            border-left: 0.25rem solid $clr-primary-3;
+            border-radius: $radius;
+            background-color: $clr-primary-2;
+            pointer-events: none;
         }
     }
+}
+
+.user-list {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $clr-primary-2;
 }
 
 .chat {
@@ -276,6 +316,10 @@ button {
 
     &-header {
         @include flex-between;
+
+        h4 {
+            text-transform: unset;
+        }
 
         button {
             min-width: 7.5rem;
@@ -289,20 +333,22 @@ button {
     display: grid;
     row-gap: 1rem;
     padding: 0.5rem;
-    border: 1px solid $clr-gray;
+    border: 1px solid $clr-gray-2;
     border-radius: $radius;
     line-height: 1.25;
 
     li {
         position: relative;
         max-width: 75%;
+        justify-self: left;
         align-self: flex-start;
         padding: 0.5rem;
         border-radius: $radius;
-        box-shadow: $shadow;
+        background-color: $clr-gray;
 
         h4 {
             margin-bottom: 0.375rem;
+            text-transform: unset;
             letter-spacing: unset;
         }
 
@@ -329,7 +375,7 @@ button {
             @include flex-center;
             column-gap: 1rem;
             border-radius: inherit;
-            background-color: $clr-black;
+            background-color: $clr-primary-2;
             opacity: 0;
             visibility: hidden;
             transition: $trans-ease;
@@ -339,13 +385,14 @@ button {
                 display: inline-block;
                 border: none;
                 background-color: $clr-white;
-                color: $clr-black;
+                color: $clr-primary-3;
                 font-size: 1rem;
             }
         }
 
         &.user {
             justify-self: right;
+            background-color: $clr-primary;
 
             &:hover footer {
                 opacity: 1;

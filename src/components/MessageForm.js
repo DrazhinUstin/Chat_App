@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { FaPaperPlane, FaEdit, FaImage } from 'react-icons/fa';
 import { collection, addDoc, Timestamp, doc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -59,6 +59,11 @@ const MessageForm = () => {
         setIsLoading(false);
     };
 
+    useEffect(() => {
+        if (!editMode) return;
+        fileRef.current.previousElementSibling.focus();
+    }, [editMode]);
+
     return (
         <footer>
             <form className='form-flex' onSubmit={handleSubmit}>
@@ -77,7 +82,7 @@ const MessageForm = () => {
                 />
                 <button
                     type='button'
-                    className='btn'
+                    className='btn green'
                     disabled={isLoading || editMode}
                     onClick={() => fileRef.current.click()}
                 >

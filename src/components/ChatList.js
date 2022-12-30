@@ -8,7 +8,7 @@ import { cutString } from '../utils/helpers';
 const ChatList = () => {
     const [chats, setChats] = useState([]);
     const { user, setIsSidebarOpen } = useAuthContext();
-    const { selectChat } = useChatContext();
+    const { chat, selectChat } = useChatContext();
 
     useEffect(() => {
         const q = query(collection(db, `users/${user.uid}/chats`), orderBy('timestamp', 'desc'));
@@ -32,7 +32,11 @@ const ChatList = () => {
         <ul className='chat-list'>
             {chats.map(({ id, uid, displayName, lastMessage }) => {
                 return (
-                    <li key={id} onClick={() => handleClick({ id, uid, displayName })}>
+                    <li
+                        key={id}
+                        className={id === chat?.id ? 'active' : null}
+                        onClick={() => handleClick({ id, uid, displayName })}
+                    >
                         <span>{displayName[0].toUpperCase()}</span>
                         <div>
                             <p>{displayName}</p>

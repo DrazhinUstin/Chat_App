@@ -4,7 +4,7 @@ import { useAuthContext } from '../context/AuthContext';
 import { useChatContext } from '../context/ChatContext';
 
 const UserList = ({ users, setUsers }) => {
-    const { user } = useAuthContext();
+    const { user, setIsSidebarOpen } = useAuthContext();
     const { selectChat } = useChatContext();
 
     const handleClick = async ({ uid, displayName }) => {
@@ -26,6 +26,9 @@ const UserList = ({ users, setUsers }) => {
             }
             selectChat({ id: chatID, uid, displayName });
             setUsers([]);
+            if (document.documentElement.clientWidth <= 800) {
+                setIsSidebarOpen(false);
+            }
         } catch (error) {}
     };
 

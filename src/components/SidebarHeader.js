@@ -11,7 +11,7 @@ const SidebarHeader = () => {
         <header className='sidebar-header'>
             <h4>{user.displayName}</h4>
             <button
-                className='btn'
+                className='btn red'
                 onClick={() => {
                     signOut(auth);
                     selectChat(null);
