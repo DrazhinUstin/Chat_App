@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ProtectedRoute, Home, Auth, Reset } from './pages';
+import { ProtectedRoute, Home, Profile, Auth, Reset } from './pages';
 
 const App = () => {
     return (
@@ -10,6 +10,14 @@ const App = () => {
                     element={
                         <ProtectedRoute>
                             <Home />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path='profile'
+                    element={
+                        <ProtectedRoute>
+                            <Profile />
                         </ProtectedRoute>
                     }
                 />

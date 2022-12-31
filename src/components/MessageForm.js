@@ -11,7 +11,7 @@ const MessageForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const {
-        user: { uid, displayName },
+        user: { uid },
     } = useAuthContext();
     const {
         chat: { id },
@@ -37,7 +37,7 @@ const MessageForm = () => {
             } else {
                 let file = validateFile(fileRef.current.files[0]);
                 if (file) {
-                    const storageRef = ref(storage, `${id}/${new Date().getTime()}`);
+                    const storageRef = ref(storage, `chats/${id}/${new Date().getTime()}`);
                     await uploadBytes(storageRef, file);
                     const url = await getDownloadURL(storageRef);
                     file = { name: storageRef.name, url };
@@ -45,7 +45,6 @@ const MessageForm = () => {
                 }
                 await addDoc(collection(db, `chats/${id}/messages`), {
                     uid,
-                    displayName,
                     message,
                     file,
                     timestamp: Timestamp.now(),

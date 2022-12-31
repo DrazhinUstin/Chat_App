@@ -30,10 +30,9 @@ const MessageList = () => {
 
     return (
         <ul className='message-list' ref={elemRef}>
-            {messages.map(({ id, uid, displayName, message, file, timestamp }, i) => {
+            {messages.map(({ id, uid, message, file, timestamp }, i) => {
                 return (
                     <li key={id} className={uid === user.uid ? 'user' : null}>
-                        <h4>{displayName}</h4>
                         <p>{message}</p>
                         {file && <img src={file.url} alt={file.name} />}
                         <p>{calcMsgTime(timestamp)}</p>

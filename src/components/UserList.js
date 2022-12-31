@@ -2,12 +2,13 @@ import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { useAuthContext } from '../context/AuthContext';
 import { useChatContext } from '../context/ChatContext';
+import Avatar from './Avatar';
 
 const UserList = ({ users, setUsers }) => {
     const { user, setIsSidebarOpen } = useAuthContext();
     const { selectChat } = useChatContext();
 
-    const handleClick = async ({ uid, displayName }) => {
+    const handleClick = async ({ uid, displayName, photoURL }) => {
         const chatID = user.uid > uid ? user.uid + uid : uid + user.uid;
         try {
             const docSnap = await getDoc(doc(db, `chats/${chatID}`));
@@ -15,11 +16,13 @@ const UserList = ({ users, setUsers }) => {
                 await setDoc(doc(db, `users/${user.uid}/chats/${chatID}`), {
                     uid,
                     displayName,
+                    photoURL,
                     timestamp: serverTimestamp(),
                 });
                 await setDoc(doc(db, `users/${uid}/chats/${chatID}`), {
                     uid: user.uid,
                     displayName: user.displayName,
+                    photoURL: user.photoURL,
                     timestamp: serverTimestamp(),
                 });
                 await setDoc(doc(db, `chats/${chatID}`), {});
@@ -34,10 +37,10 @@ const UserList = ({ users, setUsers }) => {
 
     return (
         <ul className='user-list'>
-            {users.map(({ uid, displayName }) => {
+            {users.map(({ uid, displayName, photoURL }) => {
                 return (
-                    <li key={uid} onClick={() => handleClick({ uid, displayName })}>
-                        <span>{displayName[0].toUpperCase()}</span>
+                    <li key={uid} onClick={() => handleClick({ uid, displayName, photoURL })}>
+                        <Avatar photoURL={photoURL} displayName={displayName} />
                         <p>{displayName}</p>
                     </li>
                 );

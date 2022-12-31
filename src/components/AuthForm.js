@@ -47,6 +47,7 @@ const AuthForm = () => {
                 setDoc(doc(db, 'users', user.uid), {
                     displayName,
                     email,
+                    photoURL: null,
                 });
                 navigate('/');
             } else {

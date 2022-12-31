@@ -42,7 +42,7 @@ const ChatProvider = ({ children }) => {
             if (msgID === editMode?.msgID) finishEditing();
             if (isLastMsg) await updateLastMsg();
             if (fileName) {
-                const storageRef = ref(storage, `${chat.id}/${fileName}`);
+                const storageRef = ref(storage, `chats/${chat.id}/${fileName}`);
                 await deleteObject(storageRef);
             }
         } catch (error) {}

@@ -4,6 +4,7 @@ import { db } from '../services/firebase';
 import { useAuthContext } from '../context/AuthContext';
 import { useChatContext } from '../context/ChatContext';
 import { cutString } from '../utils/helpers';
+import Avatar from './Avatar';
 
 const ChatList = () => {
     const [chats, setChats] = useState([]);
@@ -30,14 +31,14 @@ const ChatList = () => {
 
     return (
         <ul className='chat-list'>
-            {chats.map(({ id, uid, displayName, lastMessage }) => {
+            {chats.map(({ id, uid, displayName, photoURL, lastMessage }) => {
                 return (
                     <li
                         key={id}
                         className={id === chat?.id ? 'active' : null}
                         onClick={() => handleClick({ id, uid, displayName })}
                     >
-                        <span>{displayName[0].toUpperCase()}</span>
+                        <Avatar photoURL={photoURL} displayName={displayName} />
                         <div>
                             <p>{displayName}</p>
                             {lastMessage && <p>{cutString(lastMessage)}</p>}
