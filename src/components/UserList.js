@@ -27,7 +27,7 @@ const UserList = ({ users, setUsers }) => {
                 });
                 await setDoc(doc(db, `chats/${chatID}`), {});
             }
-            selectChat({ id: chatID, uid, displayName });
+            selectChat({ id: chatID, uid, displayName, photoURL });
             setUsers([]);
             if (document.documentElement.clientWidth <= 800) {
                 setIsSidebarOpen(false);

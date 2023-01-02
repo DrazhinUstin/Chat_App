@@ -53,6 +53,11 @@ const ChatProvider = ({ children }) => {
             getDocs(collection(db, `chats/${chat.id}/messages`)).then((snapshot) => {
                 snapshot.docs.forEach(async (doc) => {
                     await deleteDoc(doc.ref);
+                    const { file } = doc.data();
+                    if (file) {
+                        const fileRef = ref(storage, `chats/${chat.id}/${file.name}`);
+                        await deleteObject(fileRef);
+                    }
                 });
             });
             await deleteDoc(doc(db, `chats/${chat.id}`));

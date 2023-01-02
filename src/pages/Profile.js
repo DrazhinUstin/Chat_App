@@ -7,6 +7,7 @@ import { auth, db, storage } from '../services/firebase';
 import { useAuthContext } from '../context/AuthContext';
 import { Header, FormField } from '../components';
 import { validateFile } from '../utils/helpers';
+import Avatar from '../components/Avatar';
 
 const Profile = () => {
     const { user } = useAuthContext();
@@ -52,6 +53,11 @@ const Profile = () => {
     return (
         <main className='container'>
             <Header />
+            <article className='profile-info'>
+                <Avatar photoURL={user.photoURL} displayName={user.displayName} />
+                <p>{user.displayName}</p>
+                <p>{user.email}</p>
+            </article>
             <form className='form' onSubmit={handleSubmit}>
                 <h3 className='form-header'>update profile</h3>
                 <FormField

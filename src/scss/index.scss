@@ -224,7 +224,7 @@ button {
 }
 
 .avatar {
-    @include circle(2rem);
+    @include circle(2.5rem);
     object-fit: cover;
     background-color: $clr-primary-3;
     color: $clr-white;
@@ -269,11 +269,11 @@ span.avatar {
         }
 
         .avatar {
-            @include circle(2.5rem);
             box-shadow: 0 0 0 2px $clr-green;
         }
 
         p {
+            color: $clr-primary-3;
             font-weight: 500;
         }
     }
@@ -337,8 +337,16 @@ span.avatar {
     &-header {
         @include flex-between;
 
-        h4 {
-            text-transform: unset;
+        &>div {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            column-gap: 0.5rem;
+
+            p {
+                color: $clr-primary-3;
+                font-weight: 500;
+            }
         }
 
         button {
@@ -351,6 +359,7 @@ span.avatar {
     max-height: 50vh;
     overflow-y: auto;
     display: grid;
+    align-content: flex-start;
     row-gap: 1rem;
     padding: 0.5rem;
     border: 1px solid $clr-gray-2;
@@ -414,5 +423,36 @@ span.avatar {
                 visibility: visible;
             }
         }
+    }
+}
+
+.profile-info {
+    margin-top: 1rem;
+    text-align: center;
+
+    .avatar {
+        @include circle(5rem);
+        margin: 0 auto 0.5rem;
+    }
+
+    p:first-of-type {
+        color: $clr-primary-3;
+        font-weight: 500;
+    }
+}
+
+.not-found {
+    padding: 1rem 1rem 2rem;
+    text-align: center;
+
+    h1 {
+        margin-bottom: 0.5rem;
+        color: $clr-red;
+        font-size: 6rem;
+        line-height: 1;
+    }
+
+    h3 {
+        margin-bottom: 1rem;
     }
 }

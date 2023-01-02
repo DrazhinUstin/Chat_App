@@ -36,7 +36,7 @@ const ChatList = () => {
                     <li
                         key={id}
                         className={id === chat?.id ? 'active' : null}
-                        onClick={() => handleClick({ id, uid, displayName })}
+                        onClick={() => handleClick({ id, uid, displayName, photoURL })}
                     >
                         <Avatar photoURL={photoURL} displayName={displayName} />
                         <div>
