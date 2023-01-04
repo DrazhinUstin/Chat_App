@@ -221,6 +221,10 @@ button {
     font-size: 1rem;
     font-weight: 500;
     text-transform: capitalize;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .avatar {
@@ -329,6 +333,7 @@ span.avatar {
 }
 
 .chat {
+    align-self: flex-start;
     display: grid;
     grid-template-rows: auto 1fr auto;
     row-gap: 1rem;

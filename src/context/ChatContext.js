@@ -26,9 +26,9 @@ const ChatProvider = ({ children }) => {
         finishEditing();
     };
 
-    const startEditing = (msgID, message, isLastMsg = false) => {
-        setEditMode({ msgID, isLastMsg });
-        setMessage(message);
+    const startEditing = (msgID, msg, isLastMsg = false) => {
+        setEditMode({ msgID, msg, isLastMsg });
+        setMessage(msg);
     };
 
     const finishEditing = () => {

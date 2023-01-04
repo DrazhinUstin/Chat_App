@@ -9,6 +9,7 @@ import MessageList from './MessageList';
 import MessageForm from './MessageForm';
 import AuthForm from './AuthForm';
 import FormField from './FormField';
+import Avatar from './Avatar';
 
 export {
     Header,
@@ -22,4 +23,5 @@ export {
     MessageForm,
     AuthForm,
     FormField,
+    Avatar,
 };

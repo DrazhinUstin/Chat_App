@@ -31,6 +31,7 @@ const MessageForm = () => {
             if (editMode) {
                 await updateDoc(doc(db, `chats/${id}/messages/${editMode.msgID}`), {
                     message,
+                    isEdited: true,
                 });
                 editMode.isLastMsg && updateLastMsg();
                 finishEditing();
@@ -87,7 +88,11 @@ const MessageForm = () => {
                 >
                     <FaImage />
                 </button>
-                <button type='submit' className='btn' disabled={isLoading}>
+                <button
+                    type='submit'
+                    className='btn'
+                    disabled={isLoading || editMode?.msg === message}
+                >
                     {isLoading ? (
                         <span className='btn-spinner'></span>
                     ) : editMode ? (
