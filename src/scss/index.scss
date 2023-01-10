@@ -333,7 +333,6 @@ span.avatar {
 }
 
 .chat {
-    align-self: flex-start;
     display: grid;
     grid-template-rows: auto 1fr auto;
     row-gap: 1rem;
@@ -370,6 +369,11 @@ span.avatar {
     border: 1px solid $clr-gray-2;
     border-radius: $radius;
     line-height: 1.25;
+
+    &>.text-link {
+        justify-self: center;
+        line-height: 1;
+    }
 
     li {
         position: relative;

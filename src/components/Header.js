@@ -15,7 +15,7 @@ const Header = ({ renderBtn }) => {
             )}
             <h2>chat app</h2>
             <a
-                href='https://github.com/'
+                href='https://github.com/DrazhinUstin/Chat_App'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='icon github'

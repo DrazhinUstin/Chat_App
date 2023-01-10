@@ -56,10 +56,11 @@ const Profile = () => {
                 <Avatar photoURL={user.photoURL} displayName={user.displayName} />
                 <p>{user.displayName}</p>
                 <p>
-                    {user.email}{' '}
+                    {user.email} (
                     <Link to='/update_email' className='text-link'>
                         update
                     </Link>
+                    )
                 </p>
             </article>
             <form className='form' onSubmit={handleSubmit}>
